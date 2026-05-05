@@ -1,9 +1,5 @@
-function Dashboard() {
-  return (
-    <>
-      <h2>Bem-vindo Dashboard</h2>
-    </>
-  )
-}
+export default function Dashboard() {
+  const urlAtual = window.location.href.split('/')[3];
 
-export default Dashboard
+  return <h2>{urlAtual}</h2>;
+}
