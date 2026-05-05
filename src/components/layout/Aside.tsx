@@ -1,25 +1,35 @@
 import { Link, NavLink } from "react-router-dom";
 
-
 export default function Aside() {
+
+  function AsideSection({ title, children }) {
+    return (
+      <div className="aside-section">
+        <p className="aside-title">{title}</p>
+        <nav>
+          <ul>{children}</ul>
+        </nav>
+      </div>
+    );
+  }
   return (
     <aside className="aside">
-      <div>
-        <h2 className="logo">AutoDRE</h2>
-      </div>
-      <nav>
-        <ul>
-          <p>Informações</p>
-          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-          <li><Link to="/grafico">Gráfico</Link></li>
-          <p>DRE</p>
-          <li><Link to="/processamentodre">Processamento</Link></li>
-          <li><Link to="/uploaddre">Upload</Link></li>
-          <p>Configurações</p>
-          <li><Link to="/cadastrousuarios">Cadastro de usuario</Link></li>
-          <li><Link to="/contasativas">Contas ativas</Link></li>
-        </ul>
-      </nav>
+      <div className="logo">AutoDRE</div>
+
+      <AsideSection title="Informações">
+        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+        <li><NavLink to="/grafico">Gráfico</NavLink></li>
+      </AsideSection>
+
+      <AsideSection title="DRE">
+        <li><NavLink to="/processamentodre">Processamento</NavLink></li>
+        <li><NavLink to="/uploaddre">Upload</NavLink></li>
+      </AsideSection>
+
+      <AsideSection title="Configurações">
+        <li><NavLink to="/cadastrousuarios">Cadastro de usuário</NavLink></li>
+        <li><NavLink to="/contasativas">Contas ativas</NavLink></li>
+      </AsideSection>
     </aside>
   );
 }

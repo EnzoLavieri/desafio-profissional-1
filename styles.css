@@ -12,15 +12,9 @@ body {
   width: 250px;
   background: #1e1e2d;
   color: white;
-  padding: 20px;
-}
-
-.aside .logo {
-  margin-bottom: 20px;
 }
 
 .aside ul {
-  /* list-style: none; */
   padding: 0;
 }
 
@@ -31,17 +25,6 @@ body {
 .aside a {
   color: #ccc;
   text-decoration: none;
-}
-
-.aside nav {
-padding: 0px 20px;
-}
-
-.aside nav li,p{
-padding: 6px;
-}
-.aside nav p{
-margin-left: -26px;
 }
 
 .aside a:hover {
@@ -71,4 +54,65 @@ padding: 20px;
 
 .content {
   padding: 20px;
+}
+
+.aside {
+  width: 250px;
+  background: #1e1e2d;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.aside .logo {
+  background: #2f2fa1;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.aside p {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #888;
+  margin: 20px 0 5px 23px;
+  letter-spacing: 1px;
+}
+
+.aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.aside li {
+  margin:  0;
+}
+
+.aside a {
+  display: block;
+  padding: 10px 20px;
+  color: #b5b5c3;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.aside a:hover {
+  background: #2a2a40;
+  color: #fff;
+  border-left: 3px solid #2f2fa1;
+}
+
+.aside a.active {
+  background: #2f2fa1;
+  color: #fff;
+  font-weight: bold;
+  border-left: 3px solid #fff;
+}
+
+.aside nav {
+  margin-bottom: 10px;
 }
