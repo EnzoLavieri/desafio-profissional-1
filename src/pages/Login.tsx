@@ -33,11 +33,14 @@ export default function Login() {
       console.log(data)
 
       // JWT padrão do NestJS
-      if (data.access_token) {
-        localStorage.setItem(
-          "token",
-          data.access_token
-        );
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      
+
+      if (data.user?.id) {
+        localStorage.setItem("userId", data.user.id);
       }
 
       navigate("/home");
@@ -50,7 +53,7 @@ export default function Login() {
         );
       }
 
-      
+
     } catch (err: any) {
       setError(
         err.response?.data?.message ||
