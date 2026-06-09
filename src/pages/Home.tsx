@@ -69,101 +69,167 @@ export default function Home() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-10">
-        {/* ... */}
-      </header>
-
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-foreground mb-2">
-            Bem-vindo de volta!
-          </h2>
-          <p className="text-muted-foreground">
-            Selecione uma empresa ou adicione uma nova para começar a análise
+return (
+  <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    {/* Header */}
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">
+            Gestão financeira empresarial
           </p>
         </div>
+      </div>
+    </header>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-1/10 rounded-xl flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-chart-1" />
-              </div>
-              <span className="text-2xl font-semibold text-foreground">
+    <main className="max-w-7xl mx-auto px-6 py-8">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-3xl border border-border/50 bg-card p-8 mb-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent" />
+
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight mb-2">
+              Bem-vindo de volta!
+            </h2>
+
+            <p className="text-muted-foreground">
+              Gerencie suas empresas, acompanhe análises financeiras e tenha todos os indicadores em um único lugar.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('/editcompany')}
+            className="flex items-center gap-2 px-5 py-3 bg-primary text-primary-foreground rounded-xl hover:scale-105 transition-all shadow-lg"
+          >
+            <Plus className="w-5 h-5" />
+            Nova Empresa
+          </button>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+        <div className="group bg-card border border-border/50 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Empresas
+              </p>
+
+              <h3 className="text-4xl font-bold">
                 {companies.length}
-              </span>
+              </h3>
             </div>
-            <h3 className="text-sm text-muted-foreground">
-              Empresas Cadastradas
-            </h3>
-          </div>
 
-          <div className="bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-2/10 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-chart-2" />
-              </div>
-              <span className="text-2xl font-semibold text-foreground">
-                12
-              </span>
+            <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <Building2 className="w-7 h-7 text-blue-500" />
             </div>
-            <h3 className="text-sm text-muted-foreground">
-              DREs Processadas
-            </h3>
-          </div>
-
-          <div className="bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-3/10 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-chart-3" />
-              </div>
-              <span className="text-2xl font-semibold text-foreground">
-                87%
-              </span>
-            </div>
-            <h3 className="text-sm text-muted-foreground">
-              Taxa de Sucesso
-            </h3>
           </div>
         </div>
 
-        {/* Companies List */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">
+        <div className="group bg-card border border-border/50 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">
+                DREs Processadas
+              </p>
+
+              <h3 className="text-4xl font-bold">12</h3>
+            </div>
+
+            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+              <FileText className="w-7 h-7 text-emerald-500" />
+            </div>
+          </div>
+        </div>
+
+        <div className="group bg-card border border-border/50 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Taxa de Sucesso
+              </p>
+
+              <h3 className="text-4xl font-bold">87%</h3>
+            </div>
+
+            <div className="w-14 h-14 rounded-2xl bg-violet-500/10 flex items-center justify-center">
+              <TrendingUp className="w-7 h-7 text-violet-500" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Companies */}
+      <section className="bg-card border border-border/50 rounded-3xl p-8 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold">
               Suas Empresas
             </h3>
 
-            <button
-              onClick={() => navigate('/editcompany')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Nova Empresa
-            </button>
+            <p className="text-muted-foreground">
+              Selecione uma empresa para continuar
+            </p>
           </div>
 
-          {loading ? (
-            <p>Carregando empresas...</p>
-          ) : companies.length > 0 ? (
-            <div className="space-y-3">
-              {companies.map((company) => (
-                <EmpresaCard
-                  key={company.id}
-                  company={company}
-                />
-              ))}
-            </div>
-          ) : (
-            <p>Nenhuma empresa cadastrada.</p>
-          )}
+          <button
+            onClick={() => navigate('/editcompany')}
+            className="flex items-center gap-2 px-4 py-2 border rounded-xl hover:bg-muted transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Adicionar Empresa
+          </button>
         </div>
-      </main>
-    </div>
-  );
+
+        {loading ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="h-24 rounded-2xl bg-muted animate-pulse"
+              />
+            ))}
+          </div>
+        ) : companies.length > 0 ? (
+          <div className="grid gap-4">
+            {companies.map((company) => (
+              <div
+                key={company.id}
+                className="transition-all hover:scale-[1.01]"
+              >
+                <EmpresaCard company={company} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-20 flex flex-col items-center text-center">
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+              <Building2 className="w-10 h-10 text-primary" />
+            </div>
+
+            <h4 className="text-xl font-semibold mb-2">
+              Nenhuma empresa cadastrada
+            </h4>
+
+            <p className="text-muted-foreground max-w-md mb-6">
+              Cadastre sua primeira empresa para começar a processar
+              DREs e visualizar indicadores financeiros.
+            </p>
+
+            <button
+              onClick={() => navigate('/editcompany')}
+              className="flex items-center gap-2 px-5 py-3 bg-primary text-primary-foreground rounded-xl hover:scale-105 transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              Cadastrar primeira empresa
+            </button>
+          </div>
+        )}
+      </section>
+    </main>
+  </div>
+);
 }

@@ -6,7 +6,7 @@ import {
   Download,
   Share2
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ResponsiveContainer,
   BarChart,
@@ -20,6 +20,9 @@ import {
   Cell,
   Legend
 } from "recharts";
+
+import { useState } from "react";
+import axios from "axios";
 
 interface LinhaDRE {
   mes: string;
@@ -42,6 +45,21 @@ export default function FinancialDashboard({
 }: FinancialDashboardProps) {
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('token');
+
+  const cnpj = useParams().cnpj;
+
+  const [dre, setDre] = useState<DREData>({
+    empresa: "",
+    periodo: "",
+    linhas_dre: []
+  });
+
+  const [arquivo, setArquivo] = useState<File | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -50,180 +68,51 @@ export default function FinancialDashboard({
     }).format(value);
   };
 
-  const dre = {
-   "empresa":"Não informada",
-   "periodo":"Março 2023",
-   "linhas_dre":[
-      {
-         "mes":"Março",
-         "conta":"Receita Bruta de Vendas",
-         "valor":1000000,
-         "operacao":"+"
-      },
-      {
-         "mes":"Março",
-         "conta":"Receitas de Vendas",
-         "valor":1000000,
-         "operacao":"+"
-      },
-      {
-         "mes":"Março",
-         "conta":"Deduções da Receita Bruta",
-         "valor":156500,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Tributos sobre Vendas e Serviços",
-         "valor":156500,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Tributos s/ Faturamento",
-         "valor":156500,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Receita Líquida",
-         "valor":843500,
-         "operacao":" ="
-      },
-      {
-         "mes":"Março",
-         "conta":"Custos",
-         "valor":500000,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Custo das Mercadorias Vendidas",
-         "valor":500000,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Resultado Operacional Bruto",
-         "valor":343500,
-         "operacao":" ="
-      },
-      {
-         "mes":"Março",
-         "conta":"Despesas Operacionais",
-         "valor":7325.57,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Despesas Administrativas",
-         "valor":7325.57,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Despesas com Pessoal",
-         "valor":4325.57,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Salário e Ordenados",
-         "valor":2000,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Férias",
-         "valor":222.22,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"13º Salário",
-         "valor":166.67,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"INSS",
-         "valor":155.68,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"FGTS",
-         "valor":160,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Pró-Labore",
-         "valor":1621,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Ocupação",
-         "valor":3000,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Aluguel",
-         "valor":3000,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Energia Elétrica",
-         "valor":350,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Agua e Esgoto",
-         "valor":125,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Telefonia e Internet",
-         "valor":80,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Resultado antes dos Tributos s/ Lucro",
-         "valor":336174.43,
-         "operacao":" ="
-      },
-      {
-         "mes":"Março",
-         "conta":"Despesa com Tributos sobre o Lucro",
-         "valor":80538.61,
-         "operacao":" ="
-      },
-      {
-         "mes":"Março",
-         "conta":"Tributos sobre o Lucro",
-         "valor":80538.61,
-         "operacao":"-"
-      },
-      {
-         "mes":"Março",
-         "conta":"Resultado Líquido (Lucro Líquido ou Prejuízo Líquido)",
-         "valor":255635.82,
-         "operacao":" ="
-      }
-   ]
-}
+  const carregarDRE = async () => {
+    if (!cnpj) {
+      setError("CNPJ não informado");
+      return;
+    }
 
+    if (!arquivo) {
+      setError("Selecione um arquivo PDF");
+      return;
+    }
 
-  const getConta = (nome: string) =>
-    dre.linhas_dre.find(
-      item => item.conta === nome
-    )?.valor ?? 0;
+    try {
+      setError(null);
+      setLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("pdf", arquivo);
+
+      const response = await axios.post(
+        `http://localhost:3000/api/google/processar-pdf/${cnpj}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+
+      setDre(response.data.resultado.dados);
+    } catch (err) {
+      console.error(err);
+      setError("Erro ao carregar DRE");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+const getConta = (nome: string) =>
+  dre.linhas_dre.find(
+    item =>
+      item.conta.trim().toUpperCase() ===
+      nome.trim().toUpperCase()
+  )?.valor ?? 0;
 
   const receitaLiquida = getConta("Receita Líquida");
 
@@ -344,15 +233,38 @@ export default function FinancialDashboard({
               </div>
             </div>
 
-            <div className="flex gap-2">
-              <button className="px-4 py-2 bg-secondary rounded-lg flex items-center gap-2">
-                <Share2 className="w-4 h-4" />
-                Compartilhar
-              </button>
+            <div className="flex items-center gap-2">
+              <input
+                id="pdf-upload"
+                type="file"
+                accept=".pdf,application/pdf"
+                className="hidden"
+                onChange={(e) =>
+                  setArquivo(e.target.files?.[0] || null)
+                }
+              />
 
-              <button className="px-4 py-2 bg-primary text-white rounded-lg flex items-center gap-2">
+              <label
+                htmlFor="pdf-upload"
+                className="px-4 py-2 bg-secondary rounded-lg cursor-pointer hover:opacity-90"
+              >
+                Selecionar PDF
+              </label>
+
+              {arquivo && (
+                <span className="text-sm text-muted-foreground max-w-[250px] truncate">
+                  {arquivo.name}
+                </span>
+              )}
+
+              <button
+                onClick={carregarDRE}
+                disabled={!arquivo || loading}
+                className="px-4 py-2 bg-primary text-black rounded-lg flex items-center gap-2 disabled:opacity-50"
+              >
                 <Download className="w-4 h-4" />
-                Exportar
+
+                {loading ? "Processando..." : "Carregar DRE"}
               </button>
             </div>
           </div>
@@ -361,6 +273,11 @@ export default function FinancialDashboard({
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         {/* KPIs */}
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-300 bg-red-50 p-4 text-red-600">
+            {error}
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {indicators.map((item, index) => {
             const Icon = item.icon;
