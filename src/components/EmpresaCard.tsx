@@ -16,6 +16,15 @@ interface EmpresaCardProps {
   company: Company;
 }
 
+function formatarCNPJ(cnpj) {
+  const numeros = cnpj.replace(/\D/g, '');
+
+  return numeros.replace(
+    /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/,
+    '$1.$2.$3/$4-$5'
+  );
+}
+
 function EmpresaCard({ company }: EmpresaCardProps) {
   const navigate = useNavigate();
 
@@ -24,7 +33,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
   return (
     <div
       className="group p-5 bg-accent/30 hover:bg-accent/50 border border-border/50 rounded-xl transition-all cursor-pointer"
-      onClick={() => navigate(`/dashboardfinanceiro/${company.id}`)}
+      onClick={() => navigate(`/dashboardfinanceiro/${company.id}`, { state: { companyNome: company.nome, companyCnpj: formatarCNPJ(company.cnpj) } })}
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">
@@ -41,7 +50,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <Building2 className="w-4 h-4" />
-              {company.cnpj}
+              {formatarCNPJ(company.cnpj)}
             </span>
 
             {/* <span className="flex items-center gap-1">
