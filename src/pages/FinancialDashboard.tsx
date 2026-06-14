@@ -230,11 +230,11 @@ export default function FinancialDashboard({
               Extraindo dados financeiros do PDF...
             </p>
 
-            <div className="mt-6 w-full">
+            {/* <div className="mt-6 w-full">
               <div className="h-2 overflow-hidden rounded-full bg-gray-200">
                 <div className="h-full animate-pulse rounded-full bg-orange-500 w-full" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
