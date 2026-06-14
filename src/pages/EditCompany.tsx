@@ -358,7 +358,7 @@ export default function EditCompany({
                       </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    {/* <div className="flex gap-2">
                       <button className="p-2 hover:bg-primary/10 rounded-lg">
                         <Edit className="w-4 h-4" />
                       </button>
@@ -366,7 +366,7 @@ export default function EditCompany({
                       <button className="p-2 hover:bg-destructive/10 rounded-lg">
                         <Trash2 className="w-4 h-4" />
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
