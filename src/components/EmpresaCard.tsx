@@ -1,6 +1,6 @@
 // EmpresaCard.tsx
 
-import { Building2, Calendar, FileText, Upload } from 'lucide-react';
+import { Building2, Calendar, FileText, PinIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Company {
@@ -32,7 +32,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
 
   return (
     <div
-      className="group p-5 bg-accent/30 hover:bg-accent/50 border border-border/50 rounded-xl transition-all cursor-pointer"
+      className="group p-5 bg-accent/30 hover:bg-accent/50 border border-gray-300 border-border/50 rounded-xl transition-all cursor-pointer"
       onClick={() => navigate(`/dashboardfinanceiro/${company.id}`, { state: { companyNome: company.nome, companyCnpj: formatarCNPJ(company.cnpj) } })}
     >
       <div className="flex items-center justify-between">
@@ -47,16 +47,16 @@ function EmpresaCard({ company }: EmpresaCardProps) {
             </span> */}
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground text-gray-500">
             <span className="flex items-center gap-1">
               <Building2 className="w-4 h-4" />
               {formatarCNPJ(company.cnpj)}
             </span>
-
-            {/* <span className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
-              Última atualização: {company.lastUpdate}
-            </span> */}
+            <p>|</p>
+            <span className="flex items-center gap-1">
+              <PinIcon className="w-4 h-4" />
+              {company.endereco}
+            </span>
           </div>
         </div>
 
