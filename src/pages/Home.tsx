@@ -76,9 +76,39 @@ export default function Home() {
         {/* ... */}
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
+      {/* <main className="max-w-7xl mx-auto px-6 py-8"> */}
+      {/* Welcome Section */}
+      <header className="bg-card border-b border-border sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-black border border-white rounded-xl flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold text-foreground">FinanceView</h1>
+                <p className="text-sm text-muted-foreground">Análise Financeira DRE</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate('')}
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Configurações
+              </button>
+              <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-primary">AD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+
+      {/* Quick Stats */}
+      <div className="py-10 px-60">
+                <div className="mb-8">
           <h2 className="text-2xl font-semibold text-foreground mb-2">
             Bem-vindo de volta!
           </h2>
@@ -86,13 +116,11 @@ export default function Home() {
             Selecione uma empresa ou adicione uma nova para começar a análise
           </p>
         </div>
-
-        {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-card border border-border rounded-xl p-6">
+          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-1/10 rounded-xl flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-chart-1" />
+              <div className="w-10 h-10 bg-orange-100 border border-white rounded-xl flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-orange-500" />
               </div>
               <span className="text-2xl font-semibold text-foreground">
                 {companies.length}
@@ -103,7 +131,7 @@ export default function Home() {
             </h3>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-6">
+          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-chart-2/10 rounded-xl flex items-center justify-center">
                 <FileText className="w-6 h-6 text-chart-2" />
@@ -117,7 +145,7 @@ export default function Home() {
             </h3>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-6">
+          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-chart-3/10 rounded-xl flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-chart-3" />
@@ -133,7 +161,7 @@ export default function Home() {
         </div>
 
         {/* Companies List */}
-        <div className="bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">
               Suas Empresas
@@ -163,7 +191,8 @@ export default function Home() {
             <p>Nenhuma empresa cadastrada.</p>
           )}
         </div>
-      </main>
+      </div>
+      {/* </main> */}
     </div>
   );
 }
