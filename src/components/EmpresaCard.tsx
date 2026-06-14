@@ -60,7 +60,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -80,7 +80,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
             <FileText className="w-4 h-4" />
             Relatórios
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
