@@ -38,7 +38,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h4 className="font-semibold text-foreground">
+            <h4 className="font-semibold text-foreground" style={{ fontSize: '18px' }}>
               {company.nome}
             </h4>
 
