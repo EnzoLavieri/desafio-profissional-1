@@ -7,10 +7,7 @@ import {
   Trash2
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-interface CNPJManagementProps {
-  onNavigate: (screen: string) => void;
-}
+import { useNavigate } from 'react-router-dom';
 
 interface Company {
   id: string;
@@ -21,9 +18,9 @@ interface Company {
   telefone: string;
 }
 
-export default function EditCompany({
-  onNavigate
-}: CNPJManagementProps) {
+export default function EditCompany() {
+  const navigate = useNavigate();
+
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -137,16 +134,16 @@ export default function EditCompany({
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-card border-b border-border sticky top-0 z-10">
+      <header className="bg-card border-b border-border sticky top-0 z-10 bg-white">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => onNavigate('dashboard')}
+              {/* <button
+                onClick={() => navigate(-1)}
                 className="p-2 hover:bg-accent rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-5 h-5 text-foreground" />
-              </button>
+              </button> */}
 
               <div>
                 <h1 className="text-xl font-semibold text-foreground">
@@ -154,25 +151,33 @@ export default function EditCompany({
                 </h1>
 
                 <p className="text-sm text-muted-foreground">
-                  Cadastre e gerencie suas empresas
+                  Cadastre e gerencie os CNPJs das suas empresas
                 </p>
               </div>
             </div>
 
-            <button
-              onClick={() => setShowForm(true)}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Nova Empresa
-            </button>
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:scale-105 transition-all duration-300"
+              >
+                <Plus
+                  className={`w-4 h-4 transition-transform duration-300 ${showForm ? 'rotate-45' : ''
+                    }`}
+                />
+                {showForm ? 'Fechar' : 'Nova Empresa'}
+              </button>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {showForm && (
-          <div className="bg-card border border-border rounded-xl p-6 mb-6">
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${showForm
+              ? 'max-h-[1000px] opacity-100 mb-6'
+              : 'max-h-0 opacity-0'
+            }`}
+        >
+          <div className="bg-card border border-gray-300 rounded-xl p-6">
             <h3 className="font-semibold text-foreground mb-6">
               Cadastrar Nova Empresa
             </h3>
@@ -183,7 +188,7 @@ export default function EditCompany({
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-muted-foreground mb-2">
+                  <label className="block text-sm text-muted-foreground mb-2" style={{ color: '#717182' }}>
                     Nome da Empresa *
                   </label>
 
@@ -197,12 +202,12 @@ export default function EditCompany({
                       })
                     }
                     required
-                    className="w-full px-4 py-2.5 bg-input-background border border-border rounded-lg"
+                    className="w-full px-4 py-2.5 bg-input-background border border-gray-300 rounded-lg"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-muted-foreground mb-2">
+                  <label className="block text-sm text-muted-foreground mb-2 " style={{ color: '#717182' }}>
                     CNPJ *
                   </label>
 
@@ -217,12 +222,12 @@ export default function EditCompany({
                     }
                     required
                     placeholder="00.000.000/0000-00"
-                    className="w-full px-4 py-2.5 bg-input-background border border-border rounded-lg"
+                    className="w-full px-4 py-2.5 bg-input-background border border-gray-300 rounded-lg"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-muted-foreground mb-2">
+                  <label className="block text-sm text-muted-foreground mb-2" style={{ color: '#717182' }}>
                     E-mail
                   </label>
 
@@ -235,12 +240,12 @@ export default function EditCompany({
                         email: e.target.value
                       })
                     }
-                    className="w-full px-4 py-2.5 bg-input-background border border-border rounded-lg"
+                    className="w-full px-4 py-2.5 bg-input-background border border-gray-300 rounded-lg"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-muted-foreground mb-2">
+                  <label className="block text-sm text-muted-foreground mb-2" style={{ color: '#717182' }}  >
                     Telefone
                   </label>
 
@@ -253,12 +258,12 @@ export default function EditCompany({
                         telefone: e.target.value
                       })
                     }
-                    className="w-full px-4 py-2.5 bg-input-background border border-border rounded-lg"
+                    className="w-full px-4 py-2.5 bg-input-background border border-gray-300 rounded-lg"
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm text-muted-foreground mb-2">
+                  <label className="block text-sm text-muted-foreground mb-2"  style={{ color: '#717182' }}>
                     Endereço
                   </label>
 
@@ -271,7 +276,7 @@ export default function EditCompany({
                         endereco: e.target.value
                       })
                     }
-                    className="w-full px-4 py-2.5 bg-input-background border border-border rounded-lg"
+                    className="w-full px-4 py-2.5 bg-input-background border border-gray-300 rounded-lg"
                   />
                 </div>
               </div>
@@ -280,85 +285,101 @@ export default function EditCompany({
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg"
+                  className="px-6 py-2.5 bg-gray-200 text-secondary-foreground rounded-lg font-bold"
                 >
                   Cancelar
                 </button>
 
-                <button
+                {/* <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg"
+                  className="px-6 py-2.5 bg- text-white rounded-lg font-bold"
                 >
                   {saving
                     ? 'Cadastrando...'
                     : 'Cadastrar'}
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
-        )}
+        </div>
 
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="font-semibold text-foreground mb-6">
-            Empresas Cadastradas
-          </h3>
+          <div className="bg-card border border-gray-300 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-semibold text-foreground">
+                Empresas Cadastradas
+              </h3>
 
-          {loading && (
-            <div className="text-center py-8">
-              Carregando empresas...
+              {/* <button
+                onClick={() => setShowForm(!showForm)}
+                className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:scale-105 transition-all duration-300"
+              >
+                <Plus
+                  className={`w-4 h-4 transition-transform duration-300 ${showForm ? 'rotate-45' : ''
+                    }`}
+                />
+                {showForm ? 'Fechar' : 'Nova Empresa'}
+              </button> */}
             </div>
-          )}
+            {/* <h3 className="font-semibold text-foreground mb-6">
+              Empresas Cadastradas
+            </h3> */}
 
-          {!loading && companies.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              Nenhuma empresa cadastrada.
-            </div>
-          )}
+            {loading && (
+              <div className="text-center py-8">
+                Carregando empresas...
+              </div>
+            )}
 
-          <div className="space-y-4">
-            {!loading &&
-              companies.map((company) => (
-                <div
-                  key={company.id}
-                  className="p-5 bg-accent/30 border border-border/50 rounded-xl"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex gap-4 flex-1">
-                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                        <Building2 className="w-6 h-6 text-primary" />
-                      </div>
+            {!loading && companies.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                Nenhuma empresa cadastrada.
+              </div>
+            )}
 
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-foreground mb-2">
-                          {company.nome}
-                        </h4>
+            <div className="space-y-4">
+              {!loading &&
+                companies.map((company) => (
+                  <div
+                    key={company.id}
+                    className="p-5 bg-accent/30 border border-gray-300 rounded-xl"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex gap-4 flex-1">
+                        <div className="w-12 h-12 bg-gray-300 rounded-xl flex items-center justify-center">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                          <p>
-                            <strong>CNPJ:</strong>{' '}
-                            {company.cnpj}
-                          </p>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-foreground mb-2 text-lg">
+                            {company.nome}
+                          </h4>
 
-                          <p>
-                            <strong>E-mail:</strong>{' '}
-                            {company.email}
-                          </p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                            <p className="text-gray-500">
+                              <strong>CNPJ:</strong>{' '}
+                              {company.cnpj}
+                            </p>
 
-                          <p>
-                            <strong>Telefone:</strong>{' '}
-                            {company.telefone}
-                          </p>
+                            <p className="text-gray-500">
+                              <strong>E-mail:</strong>{' '}
+                              {company.email}
+                            </p>
 
-                          <p>
-                            <strong>Endereço:</strong>{' '}
-                            {company.endereco}
-                          </p>
+                            <p className="text-gray-500">
+                              <strong>Telefone:</strong>{' '}
+                              {company.telefone}
+                            </p>
+
+                            <p className="text-gray-500">
+                              <strong>Endereço:</strong>{' '}
+                              {company.endereco}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* <div className="flex gap-2">
+                      {/* <div className="flex gap-2">
                       <button className="p-2 hover:bg-primary/10 rounded-lg">
                         <Edit className="w-4 h-4" />
                       </button>
@@ -367,11 +388,11 @@ export default function EditCompany({
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div> */}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
-        </div>
       </main>
     </div>
   );
