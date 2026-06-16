@@ -104,11 +104,11 @@ export default function Home() {
           </div>
         </div>
       </header>
-      
+
 
       {/* Quick Stats */}
       <div className="py-10 px-60">
-                <div className="mb-8">
+        <div className="mb-8">
           <h2 className="text-2xl font-semibold text-foreground mb-2">
             Bem-vindo de volta!
           </h2>
@@ -169,7 +169,7 @@ export default function Home() {
 
             <button
               onClick={() => navigate('/editcompany')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground border border-primary rounded-lg hover:bg-primary/90 transition-colors "
             >
               <Plus className="w-4 h-4" />
               Nova Empresa
