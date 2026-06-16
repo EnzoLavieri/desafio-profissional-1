@@ -87,7 +87,7 @@ export default function EditCompany() {
       const token = localStorage.getItem('token');
 
       await axios.post(
-        'http://localhost:3000/api/usuarios/adicionar-cnpj/043c3b83-e9ad-4480-b8ad-e819f409e919',
+        `http://localhost:3000/api/usuarios/adicionar-cnpj/${localStorage.getItem('userId')}`,
         {
           nome: formData.nome,
           cnpj: formData.cnpj.replace(/\D/g, ''),
@@ -138,12 +138,12 @@ export default function EditCompany() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* <button
-                onClick={() => navigate(-1)}
-                className="p-2 hover:bg-accent rounded-lg transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5 text-foreground" />
-              </button> */}
+                <button
+                  onClick={() => navigate(-1)}
+                  className="p-2 hover:bg-accent rounded-lg"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
 
               <div>
                 <h1 className="text-xl font-semibold text-foreground">
@@ -290,15 +290,15 @@ export default function EditCompany() {
                   Cancelar
                 </button>
 
-                {/* <button
+                <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 bg- text-white rounded-lg font-bold"
+                  className="px-6 py-2.5 bg- text-black rounded-lg font-bold"
                 >
                   {saving
                     ? 'Cadastrando...'
                     : 'Cadastrar'}
-                </button> */}
+                </button>
               </div>
             </form>
           </div>
