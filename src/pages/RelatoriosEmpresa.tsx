@@ -8,7 +8,7 @@ import {
     Search,
     ArrowLeft,
 } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 interface Relatorio {
@@ -25,6 +25,8 @@ export default function RelatoriosEmpresa() {
     const location = useLocation();
 
     const navigate = useNavigate();
+
+    const {empresaId}  = useParams();
 
     const [relatorios, setRelatorios] = useState<Relatorio[]>([]);
     const [loading, setLoading] = useState(true);
@@ -60,36 +62,31 @@ export default function RelatoriosEmpresa() {
     //     },
     // ];
 
+    console.log(empresaId)
+
     useEffect(() => {
         async function carregarRelatorios() {
             try {
                 setLoading(true);
 
-                const cnpjLimpo = companyCnpj.replace(/\D/g, '');
-
                 const response = await fetch(
-                    `http://localhost:3000/api/google/buscar-dre/${companyId}`
+                    `http://localhost:3000/api/google/buscar-dre/${empresaId}`
                 );
-
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar relatórios');
-                }
 
                 const data = await response.json();
 
                 setRelatorios(data.resultado);
             } catch (err) {
                 console.error(err);
-                setError('Não foi possível carregar os relatórios.');
             } finally {
                 setLoading(false);
             }
         }
 
-        if (companyCnpj) {
+        if (empresaId) {
             carregarRelatorios();
         }
-    }, [companyCnpj]);
+    }, [empresaId]);
 
     { console.log(relatorios) }
 
@@ -204,12 +201,12 @@ export default function RelatoriosEmpresa() {
                                     <Eye className="w-4 h-4" />
                                 </button>
 
-                                <button
+                                {/* <button
                                     className="p-2 rounded-lg border hover:bg-accent"
                                     title="Download"
                                 >
                                     <Download className="w-4 h-4" />
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     ))}

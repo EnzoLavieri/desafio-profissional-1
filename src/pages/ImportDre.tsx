@@ -160,12 +160,13 @@ export default function ImportDre() {
                     )
                 );
 
-                navigate(`/relatorios/${cnpj}`,);
-                //navigate(`/dashboardfinanceiro/${cnpj}`, {
-                //   state: {
-                //     dre: response.data.resultado.dados,
-                //   },
-                //});
+                navigate(`/relatorios/${cnpj}`, {
+                    state: {
+                        // companyNome,
+                        companyCnpj: cnpj,
+                        // companyId,
+                    },
+                });
 
                 return;
             }
