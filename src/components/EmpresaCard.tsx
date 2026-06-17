@@ -1,6 +1,6 @@
 // EmpresaCard.tsx
 
-import { Building2, Calendar, FileText, PinIcon, Upload } from 'lucide-react';
+import { Building2, Calendar, FileText, PinIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Company {
@@ -25,26 +25,42 @@ function formatarCNPJ(cnpj) {
   );
 }
 
-function EmpresaCard({ company }: EmpresaCardProps) {
+ function EmpresaCard({ company }: EmpresaCardProps) {
   const navigate = useNavigate();
 
-  console.log(company)
+  const handleViewReports = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    navigate(`/relatorios/${company.id}`, {
+      state: {
+        companyNome: company.nome,
+        companyCnpj: formatarCNPJ(company.cnpj),
+        companyId: company.id,
+      },
+    });
+  };
 
   return (
     <div
       className="group p-5 bg-accent/30 hover:bg-accent/50 border border-gray-300 border-border/50 rounded-xl transition-all cursor-pointer"
-      onClick={() => navigate(`/dashboardfinanceiro/${company.id}`, { state: { companyNome: company.nome, companyCnpj: formatarCNPJ(company.cnpj) } })}
+      onClick={() =>
+        navigate(`/dashboardfinanceiro/${company.id}`, {
+          state: {
+            companyNome: company.nome,
+            companyCnpj: formatarCNPJ(company.cnpj),
+          },
+        })
+      }
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h4 className="font-semibold text-foreground" style={{ fontSize: '18px' }}>
+            <h4
+              className="font-semibold text-foreground"
+              style={{ fontSize: '18px' }}
+            >
               {company.nome}
             </h4>
-
-            {/* <span className="px-2 py-1 text-xs rounded-full border">
-              {company.status}
-            </span> */}
           </div>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground text-gray-500">
@@ -52,7 +68,9 @@ function EmpresaCard({ company }: EmpresaCardProps) {
               <Building2 className="w-4 h-4" />
               {formatarCNPJ(company.cnpj)}
             </span>
+
             <p>|</p>
+
             <span className="flex items-center gap-1">
               <PinIcon className="w-4 h-4" />
               {company.endereco}
@@ -60,28 +78,14 @@ function EmpresaCard({ company }: EmpresaCardProps) {
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/dashboardfinanceiro/${company.id}`, { state: { companyNome: company.nome, companyCnpj: formatarCNPJ(company.cnpj) } });
-            }}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
-          >
-            <Upload className="w-4 h-4"/>
-            Enviar DRE
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors flex items-center gap-2"
-          >
-            <FileText className="w-4 h-4" />
-            Relatórios
-          </button>
-        </div>
+        {/* Botão de relatórios */}
+        <button
+          onClick={handleViewReports}
+          className="ml-4 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          <FileText className="w-4 h-4" />
+          Relatórios
+        </button>
       </div>
     </div>
   );

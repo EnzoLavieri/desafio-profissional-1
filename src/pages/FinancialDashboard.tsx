@@ -51,15 +51,21 @@ export default function FinancialDashboard({
   const cnpj = useParams().cnpj;
 
   const location = useLocation();
-  const { companyNome, companyCnpj } = location.state;
 
+  const {
+    companyNome,
+    companyCnpj,
+    companyId,
+    dre: dreRecebida
+  } = location.state || {};
 
-
-  const [dre, setDre] = useState<DREData>({
+const [dre, setDre] = useState<DREData>(
+  dreRecebida || {
     empresa: "",
     periodo: "",
     linhas_dre: []
-  });
+  }
+);
 
   const [arquivo, setArquivo] = useState<File | null>(null);
 
@@ -290,7 +296,7 @@ export default function FinancialDashboard({
               {error}
             </div>
           )}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <input
               id="pdf-upload"
               type="file"
@@ -343,7 +349,7 @@ export default function FinancialDashboard({
                 )}
               </button>
             </div>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {indicators.map((item, index) => {
