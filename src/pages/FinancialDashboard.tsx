@@ -465,7 +465,7 @@ export default function FinancialDashboard({
                       </td>
 
                       <td className="py-3 px-4 text-center">
-                        {item.operacao}
+                        {item.operacao.replace(`""`,"")}
                       </td>
 
                       <td className="py-3 px-4 text-right">
