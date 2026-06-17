@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 interface Company {
   id: string;
@@ -331,8 +332,8 @@ export default function EditCompany() {
             </h3> */}
 
           {loading && (
-            <div className="text-center py-8">
-              Carregando empresas...
+            <div>
+              <Loading />
             </div>
           )}
 
