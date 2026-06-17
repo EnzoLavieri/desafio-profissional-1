@@ -169,9 +169,11 @@ export default function Home() {
         {/* Companies List */}
         <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">
-              Suas Empresas
-            </h3>
+            {companies.length > 0 &&
+              <h3 className="text-lg font-semibold text-foreground">
+                Suas Empresas
+              </h3>
+            }
 
             {companies.length > 0 &&
               <button
