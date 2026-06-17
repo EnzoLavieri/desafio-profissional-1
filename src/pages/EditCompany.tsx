@@ -74,6 +74,8 @@ export default function EditCompany() {
     } finally {
       setLoading(false);
     }
+
+    companies.length === 0 && setShowForm(true)
   };
 
   const handleSubmit = async (
@@ -138,12 +140,12 @@ export default function EditCompany() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-                <button
-                  onClick={() => navigate(-1)}
-                  className="p-2 hover:bg-accent rounded-lg"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                </button>
+              <button
+                onClick={() => navigate(-1)}
+                className="p-2 hover:bg-accent rounded-lg"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
 
               <div>
                 <h1 className="text-xl font-semibold text-foreground">
@@ -156,16 +158,16 @@ export default function EditCompany() {
               </div>
             </div>
 
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:scale-105 transition-all duration-300"
-              >
-                <Plus
-                  className={`w-4 h-4 transition-transform duration-300 ${showForm ? 'rotate-45' : ''
-                    }`}
-                />
-                {showForm ? 'Fechar' : 'Nova Empresa'}
-              </button>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:scale-105 transition-all duration-300"
+            >
+              <Plus
+                className={`w-4 h-4 transition-transform duration-300 ${showForm ? 'rotate-45' : ''
+                  }`}
+              />
+              {showForm ? 'Fechar' : 'Nova Empresa'}
+            </button>
           </div>
         </div>
       </header>
@@ -173,8 +175,8 @@ export default function EditCompany() {
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div
           className={`overflow-hidden transition-all duration-500 ease-in-out ${showForm
-              ? 'max-h-[1000px] opacity-100 mb-6'
-              : 'max-h-0 opacity-0'
+            ? 'max-h-[1000px] opacity-100 mb-6'
+            : 'max-h-0 opacity-0'
             }`}
         >
           <div className="bg-card border border-gray-300 rounded-xl p-6">
@@ -263,7 +265,7 @@ export default function EditCompany() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm text-muted-foreground mb-2"  style={{ color: '#717182' }}>
+                  <label className="block text-sm text-muted-foreground mb-2" style={{ color: '#717182' }}>
                     Endereço
                   </label>
 
@@ -293,7 +295,7 @@ export default function EditCompany() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 bg- text-black rounded-lg font-bold"
+                  className="px-6 py-2.5 bg- text-black rounded-lg font-bold border border-gray-300"
                 >
                   {saving
                     ? 'Cadastrando...'
@@ -304,13 +306,16 @@ export default function EditCompany() {
           </div>
         </div>
 
-          <div className="bg-card border border-gray-300 rounded-xl p-6">
-            <div className="flex items-center justify-between mb-6">
+        <div className="bg-card border border-gray-300 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-6">
+            {companies.length > 0 &&
               <h3 className="font-semibold text-foreground">
                 Empresas Cadastradas
               </h3>
+            }
 
-              {/* <button
+
+            {/* <button
                 onClick={() => setShowForm(!showForm)}
                 className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:scale-105 transition-all duration-300"
               >
@@ -320,66 +325,73 @@ export default function EditCompany() {
                 />
                 {showForm ? 'Fechar' : 'Nova Empresa'}
               </button> */}
-            </div>
-            {/* <h3 className="font-semibold text-foreground mb-6">
+          </div>
+          {/* <h3 className="font-semibold text-foreground mb-6">
               Empresas Cadastradas
             </h3> */}
 
-            {loading && (
-              <div className="text-center py-8">
-                Carregando empresas...
-              </div>
-            )}
+          {loading && (
+            <div className="text-center py-8">
+              Carregando empresas...
+            </div>
+          )}
 
-            {!loading && companies.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                Nenhuma empresa cadastrada.
-              </div>
-            )}
+          {!loading && companies.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-10 text-center">
 
-            <div className="space-y-4">
-              {!loading &&
-                companies.map((company) => (
-                  <div
-                    key={company.id}
-                    className="p-5 bg-accent/30 border border-gray-300 rounded-xl"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex gap-4 flex-1">
-                        <div className="w-12 h-12 bg-gray-300 rounded-xl flex items-center justify-center">
-                          <Building2 className="w-6 h-6 text-primary" />
-                        </div>
+              <h4 className="text-xl font-semibold text-foreground mb-2">
+                Nenhuma empresa cadastrada
+              </h4>
 
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground mb-2 text-lg">
-                            {company.nome}
-                          </h4>
+              <p className="text-muted-foreground max-w-md mb-6">
+                Preencha o formulario a cima para realizar o cadastro da sua primeira empesa!
+              </p>
+            </div>
+          )}
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                            <p className="text-gray-500">
-                              <strong>CNPJ:</strong>{' '}
-                              {company.cnpj}
-                            </p>
-
-                            <p className="text-gray-500">
-                              <strong>E-mail:</strong>{' '}
-                              {company.email}
-                            </p>
-
-                            <p className="text-gray-500">
-                              <strong>Telefone:</strong>{' '}
-                              {company.telefone}
-                            </p>
-
-                            <p className="text-gray-500">
-                              <strong>Endereço:</strong>{' '}
-                              {company.endereco}
-                            </p>
-                          </div>
-                        </div>
+          <div className="space-y-4">
+            {!loading &&
+              companies.map((company) => (
+                <div
+                  key={company.id}
+                  className="p-5 bg-accent/30 border border-gray-300 rounded-xl"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex gap-4 flex-1">
+                      <div className="w-12 h-12 bg-gray-300 rounded-xl flex items-center justify-center">
+                        <Building2 className="w-6 h-6 text-primary" />
                       </div>
 
-                      {/* <div className="flex gap-2">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-foreground mb-2 text-lg">
+                          {company.nome}
+                        </h4>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                          <p className="text-gray-500">
+                            <strong>CNPJ:</strong>{' '}
+                            {company.cnpj}
+                          </p>
+
+                          <p className="text-gray-500">
+                            <strong>E-mail:</strong>{' '}
+                            {company.email}
+                          </p>
+
+                          <p className="text-gray-500">
+                            <strong>Telefone:</strong>{' '}
+                            {company.telefone}
+                          </p>
+
+                          <p className="text-gray-500">
+                            <strong>Endereço:</strong>{' '}
+                            {company.endereco}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* <div className="flex gap-2">
                       <button className="p-2 hover:bg-primary/10 rounded-lg">
                         <Edit className="w-4 h-4" />
                       </button>
@@ -388,12 +400,12 @@ export default function EditCompany() {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div> */}
-                    </div>
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
           </div>
-      </main>
-    </div>
+        </div>
+      </main >
+    </div >
   );
 }
