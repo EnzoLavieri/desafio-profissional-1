@@ -4,11 +4,13 @@ import {
   FileText,
   TrendingUp,
   LogOut,
+  LoaderCircle
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import EmpresaCard from '../components/EmpresaCard';
+import Loading from '../components/Loading';
 
 interface Company {
   id: string;
@@ -187,7 +189,9 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <p>Carregando empresas...</p>
+            <div>
+              <Loading/>
+            </div>
           ) : companies.length > 0 ? (
             <div className="space-y-3">
               {companies.map((company) => (
