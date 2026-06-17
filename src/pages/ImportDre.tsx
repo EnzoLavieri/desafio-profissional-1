@@ -188,7 +188,7 @@ export default function ImportDre() {
     return (
         <>
             {loading && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
                     <div className="flex flex-col items-center rounded-2xl bg-card p-8 shadow-2xl">
                         <Loader2 className="mb-4 h-12 w-12 animate-spin text-primary" />
 
