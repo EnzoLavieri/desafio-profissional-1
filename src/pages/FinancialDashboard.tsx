@@ -119,12 +119,17 @@ export default function FinancialDashboard({
     }
   };
 
-  const getConta = (nome: string) =>
-    dre.linhas_dre.find(
-      item =>
-        item.conta.trim().toUpperCase() ===
-        nome.trim().toUpperCase()
-    )?.valor ?? 0;
+const normalize = (text: string) =>
+  text
+    .trim()
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+const getConta = (nome: string) =>
+  dre.linhas_dre.find(
+    item => normalize(item.conta) === normalize(nome)
+  )?.valor ?? 0;
 
   const getContaPorTermo = (termoChave: string) => {
     const termoFormatado = termoChave.trim().toUpperCase();
@@ -133,6 +138,7 @@ export default function FinancialDashboard({
       item.conta.trim().toUpperCase().includes(termoFormatado)
     )?.valor ?? 0;
   };
+  
   const receitaLiquida = getConta("Receita Líquida");
 
   const custos = getConta("Custos");
@@ -146,6 +152,7 @@ export default function FinancialDashboard({
   );
 
   const lucroLiquido = getContaPorTermo("LÍQUIDO")
+  console.log(lucroLiquido)
 
   const despesasOperacionais = getConta(
     "Despesas Operacionais"
