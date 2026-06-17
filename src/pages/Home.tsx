@@ -173,13 +173,15 @@ export default function Home() {
               Suas Empresas
             </h3>
 
-            <button
-              onClick={() => navigate('/editcompany')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground border border-primary rounded-lg hover:bg-primary/90 transition-colors "
-            >
-              <Plus className="w-4 h-4" />
-              Nova Empresa
-            </button>
+            {companies.length > 0 &&
+              <button
+                onClick={() => navigate('/editcompany')}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground border border-primary rounded-lg hover:bg-primary/90 transition-colors "
+              >
+                <Plus className="w-4 h-4" />
+                Nova Empresa
+              </button>}
+
           </div>
 
           {loading ? (
@@ -194,7 +196,28 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <p>Nenhuma empresa cadastrada.</p>
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-5">
+                <Building2 className="w-10 h-10 text-orange-500" />
+              </div>
+
+              <h4 className="text-xl font-semibold text-foreground mb-2">
+                Nenhuma empresa encontrada
+              </h4>
+
+              <p className="text-muted-foreground max-w-md mb-6">
+                Você ainda não possui empresas cadastradas.
+                Adicione sua primeira empresa para começar a analisar seus dados financeiros.
+              </p>
+
+              <button
+                onClick={() => navigate('/editcompany')}
+                className=" flex items-center gap-2 px-5 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-sm"
+              >
+                <Plus className="w-5 h-5" />
+                Cadastrar Empresa
+              </button>
+            </div>
           )}
         </div>
       </div>
