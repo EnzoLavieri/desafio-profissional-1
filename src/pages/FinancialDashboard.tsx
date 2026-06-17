@@ -120,6 +120,13 @@ export default function FinancialDashboard({
         nome.trim().toUpperCase()
     )?.valor ?? 0;
 
+  const getContaPorTermo = (termoChave: string) => {
+    const termoFormatado = termoChave.trim().toUpperCase();
+
+    return dre.linhas_dre.find(item =>
+      item.conta.trim().toUpperCase().includes(termoFormatado)
+    )?.valor ?? 0;
+  };
   const receitaLiquida = getConta("Receita Líquida");
 
   const custos = getConta("Custos");
@@ -132,9 +139,7 @@ export default function FinancialDashboard({
     "Tributos sobre o Lucro"
   );
 
-  const lucroLiquido = getConta(
-    "Resultado Líquido (Lucro Líquido ou Prejuízo Líquido)"
-  );
+  const lucroLiquido = getContaPorTermo("LÍQUIDO")
 
   const despesasOperacionais = getConta(
     "Despesas Operacionais"
