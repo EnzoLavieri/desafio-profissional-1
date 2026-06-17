@@ -1,6 +1,6 @@
 // EmpresaCard.tsx
 
-import { Building2, Calendar, FileText, PinIcon } from 'lucide-react';
+import { Building2, Calendar, FileText, PinIcon, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Company {
@@ -60,14 +60,15 @@ function EmpresaCard({ company }: EmpresaCardProps) {
           </div>
         </div>
 
-        {/* <div className="flex gap-2">
+        <div className="flex gap-2">
           <button
             onClick={(e) => {
               e.stopPropagation();
+              navigate(`/dashboardfinanceiro/${company.id}`, { state: { companyNome: company.nome, companyCnpj: formatarCNPJ(company.cnpj) } });
             }}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-4 h-4"/>
             Enviar DRE
           </button>
 
@@ -80,7 +81,7 @@ function EmpresaCard({ company }: EmpresaCardProps) {
             <FileText className="w-4 h-4" />
             Relatórios
           </button>
-        </div> */}
+        </div>
       </div>
     </div>
   );
