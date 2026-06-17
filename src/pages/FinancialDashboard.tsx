@@ -59,13 +59,13 @@ export default function FinancialDashboard({
     dre: dreRecebida
   } = location.state || {};
 
-const [dre, setDre] = useState<DREData>(
-  dreRecebida || {
-    empresa: "",
-    periodo: "",
-    linhas_dre: []
-  }
-);
+  const [dre, setDre] = useState<DREData>(
+    dreRecebida || {
+      empresa: "",
+      periodo: "",
+      linhas_dre: []
+    }
+  );
 
   const [arquivo, setArquivo] = useState<File | null>(null);
 
@@ -357,7 +357,7 @@ const [dre, setDre] = useState<DREData>(
               return (
                 <div
                   key={index}
-                  className="bg-card border rounded-xl p-6"
+                  className="bg-card border border-gray-300 rounded-xl p-6"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <Icon className="w-8 h-8 text-orange-500" />
@@ -376,7 +376,7 @@ const [dre, setDre] = useState<DREData>(
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <div className="lg:col-span-2 bg-card border rounded-xl p-6">
+            <div className="lg:col-span-2 bg-card border border-gray-300 rounded-xl p-6">
               <h3 className="font-semibold mb-6">
                 Resumo Financeiro
               </h3>
@@ -401,7 +401,7 @@ const [dre, setDre] = useState<DREData>(
             </div>
 
             {/* PIZZA */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-card border border-gray-300 rounded-xl p-6">
               <h3 className="font-semibold mb-6">
                 Distribuição de Despesas
               </h3>
@@ -431,7 +431,7 @@ const [dre, setDre] = useState<DREData>(
             </div>
           </div>
 
-          <div className="bg-card border rounded-xl p-6">
+          <div className="bg-card border border-gray-300 rounded-xl p-6">
             <h3 className="font-semibold mb-6">
               Demonstração de Resultado (DRE)
             </h3>
