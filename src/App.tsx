@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import DashboardFinanceiro from "./pages/FinancialDashboard";
 import EditCompany from "./pages/EditCompany";
 import RelatoriosEmpresa from "./pages/RelatoriosEmpresa";
+import ImportDre from "./pages/ImportDre";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/editcompany" element={<EditCompany />} />
+      <Route path="/importdre/:cnpj" element={<ImportDre />} />
       <Route
         path="/dashboardfinanceiro"
         element={<DashboardFinanceiro />}

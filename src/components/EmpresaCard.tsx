@@ -42,15 +42,7 @@ function formatarCNPJ(cnpj) {
 
   return (
     <div
-      className="group p-5 bg-accent/30 hover:bg-accent/50 border border-gray-300 border-border/50 rounded-xl transition-all cursor-pointer"
-      onClick={() =>
-        navigate(`/dashboardfinanceiro/${company.id}`, {
-          state: {
-            companyNome: company.nome,
-            companyCnpj: formatarCNPJ(company.cnpj),
-          },
-        })
-      }
+      className="group p-5 bg-accent/30 hover:bg-accent/50 border border-gray-300 border-border/50 rounded-xl transition-all"
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">
@@ -81,10 +73,17 @@ function formatarCNPJ(cnpj) {
         {/* Botão de relatórios */}
         <button
           onClick={handleViewReports}
-          className="ml-4 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          className="ml-4 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
         >
           <FileText className="w-4 h-4" />
           Relatórios
+        </button>
+        <button
+          onClick={()=>navigate(`/importdre/${company.id}`)}
+          className="ml-4 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
+        >
+          <FileText className="w-4 h-4" />
+          Enviar DRE
         </button>
       </div>
     </div>
