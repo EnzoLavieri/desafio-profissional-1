@@ -3,6 +3,7 @@ import {
   Plus,
   FileText,
   TrendingUp,
+  LogOut,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -100,6 +101,11 @@ export default function Home() {
               <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-primary">AD</span>
               </div>
+              <LogOut onClick={() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                navigate('/login');
+              }} />
             </div>
           </div>
         </div>
