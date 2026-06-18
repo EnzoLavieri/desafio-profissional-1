@@ -19,6 +19,7 @@ interface Relatorio {
     tamanho: string;
     dados: any;
     empresa: any;
+    message: string;
 }
 
 export default function RelatoriosEmpresa() {
@@ -26,10 +27,10 @@ export default function RelatoriosEmpresa() {
 
     const navigate = useNavigate();
 
-    const {empresaId}  = useParams();
+    const { empresaId } = useParams();
 
     const [relatorios, setRelatorios] = useState<Relatorio[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState(''); const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const companyNome = location.state?.companyNome ?? 'Empresa';
@@ -73,7 +74,11 @@ export default function RelatoriosEmpresa() {
                     `http://localhost:3000/api/google/buscar-dre/${empresaId}`
                 );
 
+
                 const data = await response.json();
+
+                setRelatorios(data.resultado || []);
+                setMessage(data.message || '');
 
                 setRelatorios(data.resultado);
             } catch (err) {
@@ -88,7 +93,7 @@ export default function RelatoriosEmpresa() {
         }
     }, [empresaId]);
 
-    { console.log(relatorios) }
+    { console.log(message) }
 
     return (
         <div >
@@ -154,7 +159,7 @@ export default function RelatoriosEmpresa() {
                         <div className="col-span-2 text-right">Ações</div>
                     </div>
 
-                    {relatorios.map((relatorio) => (
+                    {relatorios?.map((relatorio) => (
                         <div
                             key={relatorio.id}
                             className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-300 last:border-b-0 items-center hover:bg-accent/30"
@@ -211,7 +216,7 @@ export default function RelatoriosEmpresa() {
                         </div>
                     ))}
 
-                    {relatorios.length === 0 && (
+                    {message === 'Nenhum DRE encontrado para a empresa fornecida.' && (
                         <div className="p-12 text-center">
                             <FileText className="w-12 h-12 mx-auto mb-4 text-gray-400" />
 
@@ -222,6 +227,14 @@ export default function RelatoriosEmpresa() {
                             <p className="text-muted-foreground mt-2">
                                 Esta empresa ainda não possui relatórios gerados.
                             </p>
+                            <button
+                                className="p-2 rounded-lg border hover:bg-accent"
+                                title="Visualizar"
+                                onClick={() =>
+                                    navigate(`/importdre/${companyId}`)
+                                }  >                              
+                                Cadastrar DRE
+                            </button>
                         </div>
                     )}
                 </div>
