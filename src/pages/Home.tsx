@@ -95,12 +95,7 @@ export default function Home() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/google/buscar-todos-dre/${userid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        `http://localhost:3000/api/google/buscar-todos-dre`,
       ); 
       const relatorios = response.data.resultado.length
       setRelatorios(relatorios);
@@ -155,6 +150,12 @@ export default function Home() {
   // console.log("empresas",companies);
   // console.log("dados grafico",dadosGrafico);
 
+const userString = localStorage.getItem("user");
+
+const user = userString ? JSON.parse(userString) : null;
+
+const primeiraLetra = user?.email?.charAt(0).toUpperCase();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -177,14 +178,14 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button
+              {/* <button
                 onClick={() => navigate('')}
                 className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Configurações
-              </button>
-              <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-primary">AD</span>
+              </button> */}
+              <div className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-primary">{primeiraLetra}</span>
               </div>
               <LogOut onClick={() => {
                 localStorage.removeItem('token');
@@ -207,6 +208,8 @@ export default function Home() {
             Selecione uma empresa ou adicione uma nova para começar a análise
           </p>
         </div>
+
+      {relatorios != null &&
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Gráfico */}
           <div
@@ -299,8 +302,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-
+ }
         {/* Companies List */}
         <div className="bg-card border border-gray-300 border-border rounded-xl p-6 mt-6">
           <div className="flex items-center justify-between mb-6">
@@ -360,6 +362,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      
       {/* </main> */}
     </div>
   );
