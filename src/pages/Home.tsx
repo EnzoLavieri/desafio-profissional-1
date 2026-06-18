@@ -26,9 +26,11 @@ export default function Home() {
 
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  const [relatorios, setRelatorios] = useState();
 
   useEffect(() => {
     carregarEmpresas();
+    carregarRelatorios()
   }, []);
 
   const carregarEmpresas = async () => {
@@ -71,6 +73,20 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  const carregarRelatorios = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:3000/api/google/buscar-todos-dre");
+      const relatorios = response.data.resultado.length
+      setRelatorios(relatorios);
+      return relatorios;
+    } catch (error) {
+      console.error('Erro ao carregar relatórios:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,25 +161,11 @@ export default function Home() {
                 <FileText className="w-6 h-6 text-chart-2" />
               </div>
               <span className="text-2xl font-semibold text-foreground">
-                12
+                {relatorios}
               </span>
             </div>
             <h3 className="text-sm text-muted-foreground">
               DREs Processadas
-            </h3>
-          </div>
-
-          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-3/10 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-chart-3" />
-              </div>
-              <span className="text-2xl font-semibold text-foreground">
-                87%
-              </span>
-            </div>
-            <h3 className="text-sm text-muted-foreground">
-              Taxa de Sucesso
             </h3>
           </div>
         </div>
