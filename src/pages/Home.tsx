@@ -44,6 +44,12 @@ export default function Home() {
     carregarRelatorios()
   }, []);
 
+  const token = localStorage.getItem('token');
+  console.log(token)
+
+  const userid = localStorage.getItem('userId');
+  console.log(userid)
+
   const carregarEmpresas = async () => {
     try {
       setLoading(true);
@@ -194,96 +200,102 @@ export default function Home() {
             Selecione uma empresa ou adicione uma nova para começar a análise
           </p>
         </div>
-        <div
-          style={{
-            width: "100%",
-            height: "300px",
-            border: "1px solid #ccc",
-            padding: "12px",
-            background: "#f5f5f5",
-            borderRadius: "8px",
-          }}
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={dadosGrafico}
-              margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
-            >
-              <CartesianGrid stroke="#cfcfcf" vertical={false} />
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Gráfico */}
+          <div
+            className="flex-1"
+            style={{
+              height: "300px",
+              border: "1px solid #ccc",
+              padding: "12px",
+              background: "#f5f5f5",
+              borderRadius: "8px",
+            }}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={dadosGrafico}
+                margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+              >
+                <CartesianGrid stroke="#cfcfcf" vertical={false} />
 
-              <XAxis
-                dataKey="empresa"
-                tick={{ fontSize: 10 }}
-                interval={0}
-                angle={-20}
-                textAnchor="end"
-                height={70}
-              />
+                <XAxis
+                  dataKey="empresa"
+                  tick={{ fontSize: 10 }}
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                  height={70}
+                />
 
-              <YAxis />
+                <YAxis />
 
-              <Tooltip
-                formatter={(value: number) =>
-                  new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(value)
-                }
-              />
+                <Tooltip
+                  formatter={(value: number) =>
+                    new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(value)
+                  }
+                />
 
-              <Legend
-                verticalAlign="top"
-                align="center"
-              />
+                <Legend
+                  verticalAlign="top"
+                  align="center"
+                />
 
-              <Bar
-                dataKey="lucro"
-                name="Lucro Líquido"
-                fill="#5B9BD5"
-                radius={[4, 4, 0, 0]}
-              />
+                <Bar
+                  dataKey="lucro"
+                  name="Lucro Líquido"
+                  fill="#5B9BD5"
+                  radius={[4, 4, 0, 0]}
+                />
 
-              <Bar
-                dataKey="despesa"
-                name="Despesas"
-                fill="#C0504D"
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 mt-8">
-          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-orange-100 border border-white rounded-xl flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-orange-500" />
-              </div>
-              <span className="text-2xl font-semibold text-foreground">
-                {companies.length}
-              </span>
-            </div>
-            <h3 className="text-sm text-muted-foreground">
-              Empresas Cadastradas
-            </h3>
+                <Bar
+                  dataKey="despesa"
+                  name="Despesas"
+                  fill="#C0504D"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
 
-          <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-chart-2/10 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-chart-2" />
+          {/* Cards */}
+          <div className="w-full lg:w-72 flex flex-col" style={{ justifyContent: "space-between" }}>
+            <div className="bg-card border border-gray-300 rounded-xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-14 h-14 bg-orange-100 border border-white rounded-xl flex items-center justify-center">
+                  <Building2 className="w-6 h-6 text-orange-500" />
+                </div>
+                <span className="text-2xl font-semibold">
+                  {companies.length}
+                </span>
               </div>
-              <span className="text-2xl font-semibold text-foreground">
-                {relatorios}
-              </span>
+              <h3 className="text-sm text-muted-foreground">
+                Empresas Cadastradas
+              </h3>
             </div>
-            <h3 className="text-sm text-muted-foreground">
-              DREs Processadas
-            </h3>
+
+            <div className="bg-card border border-gray-300 rounded-xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-14 h-14 bg-chart-2/10 rounded-xl flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-chart-2" />
+                </div>
+                <span className="text-2xl font-semibold">
+                  {relatorios}
+                </span>
+              </div>
+              <h3 className="text-sm text-muted-foreground">
+                DREs Processadas
+              </h3>
+            </div>
           </div>
         </div>
+
 
         {/* Companies List */}
-        <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
+        <div className="bg-card border border-gray-300 border-border rounded-xl p-6 mt-6">
           <div className="flex items-center justify-between mb-6">
             {companies.length > 0 &&
               <h3 className="text-lg font-semibold text-foreground">
