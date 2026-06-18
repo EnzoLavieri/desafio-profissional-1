@@ -11,6 +11,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import EmpresaCard from '../components/EmpresaCard';
 import Loading from '../components/Loading';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 interface Company {
   id: string;
@@ -27,6 +37,7 @@ export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [relatorios, setRelatorios] = useState();
+  const [relatoriosSeparados, setRelatoriosSeparados] = useState();
 
   useEffect(() => {
     carregarEmpresas();
@@ -38,10 +49,10 @@ export default function Home() {
       setLoading(true);
 
       const token = localStorage.getItem('token');
-      console.log(token)
+      // console.log(token)
 
       const userid = localStorage.getItem('userId');
-      console.log(userid)
+      // console.log(userid)
 
       const response = await axios.get(
         `http://localhost:3000/api/usuarios/listar-cnpjs/${userid}`,
@@ -52,7 +63,7 @@ export default function Home() {
         }
       );
 
-      console.log(response)
+      // console.log(response)
 
       // Ajuste conforme o retorno real da API
       const empresas = response.data.flatMap((usuario: any) =>
@@ -80,6 +91,22 @@ export default function Home() {
       const response = await axios.get("http://localhost:3000/api/google/buscar-todos-dre");
       const relatorios = response.data.resultado.length
       setRelatorios(relatorios);
+
+      const relatoriosPorEmpresa = response.data.resultado.reduce(
+        (acc: Record<string, any[]>, relatorio: any) => {
+          const empresaId = relatorio.empresaId;
+
+          if (!acc[empresaId]) {
+            acc[empresaId] = [];
+          }
+
+          acc[empresaId].push(relatorio);
+
+          return acc;
+        },
+        {}
+      );
+      setRelatoriosSeparados(relatoriosPorEmpresa);
       return relatorios;
     } catch (error) {
       console.error('Erro ao carregar relatórios:', error);
@@ -87,6 +114,33 @@ export default function Home() {
       setLoading(false);
     }
   }
+
+
+  // console.log("relatorios separdos",relatoriosSeparados)
+
+  const dadosGrafico = Object.entries(relatoriosSeparados || {}).map(
+    ([empresaId, relatorios]) => {
+      const relatorio = relatorios[0];
+
+      const empresa = companies.find(
+        (c) => c.id === (empresaId)
+      );
+
+      const lucro =
+        Number(relatorio?.dados?.lucro_liquido?.[0]?.valor || 0);
+
+      const despesa =
+        Number(relatorio?.dados?.despesas?.[0]?.valor_total_despesas || 0);
+
+      return {
+        empresa: empresa?.nome || `Empresa ${empresaId}`,
+        lucro,
+        despesa,
+      };
+    }
+  );
+  // console.log("empresas",companies);
+  // console.log("dados grafico",dadosGrafico);
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,7 +151,7 @@ export default function Home() {
 
       {/* <main className="max-w-7xl mx-auto px-6 py-8"> */}
       {/* Welcome Section */}
-      <header className="bg-card border-b border-border sticky top-0 z-10">
+      <header className="bg-card border-b border-border sticky top-0 z-10  bg-white">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -140,7 +194,65 @@ export default function Home() {
             Selecione uma empresa ou adicione uma nova para começar a análise
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div
+          style={{
+            width: "100%",
+            height: "300px",
+            border: "1px solid #ccc",
+            padding: "12px",
+            background: "#f5f5f5",
+            borderRadius: "8px",
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={dadosGrafico}
+              margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid stroke="#cfcfcf" vertical={false} />
+
+              <XAxis
+                dataKey="empresa"
+                tick={{ fontSize: 10 }}
+                interval={0}
+                angle={-20}
+                textAnchor="end"
+                height={70}
+              />
+
+              <YAxis />
+
+              <Tooltip
+                formatter={(value: number) =>
+                  new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(value)
+                }
+              />
+
+              <Legend
+                verticalAlign="top"
+                align="center"
+              />
+
+              <Bar
+                dataKey="lucro"
+                name="Lucro Líquido"
+                fill="#5B9BD5"
+                radius={[4, 4, 0, 0]}
+              />
+
+              <Bar
+                dataKey="despesa"
+                name="Despesas"
+                fill="#C0504D"
+                radius={[4, 4, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 mt-8">
           <div className="bg-card border border-gray-300 border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 bg-orange-100 border border-white rounded-xl flex items-center justify-center">
@@ -192,7 +304,7 @@ export default function Home() {
 
           {loading ? (
             <div>
-              <Loading/>
+              <Loading />
             </div>
           ) : companies.length > 0 ? (
             <div className="space-y-3">
